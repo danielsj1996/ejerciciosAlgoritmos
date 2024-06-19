@@ -1,0 +1,2 @@
+    listaEspera.reiniciar();
+    listaAtendidos.reiniciar();

@@ -1,0 +1,77 @@
+Desarrolla una ADT que simule el sistema de atención al cliente en una tienda. 
+Este sistema debe manejar a los clientes que llegan, los clientes que están siendo atendidos y 
+los clientes que ya han sido atendidos. Implementa la ADT de manera que utilice una fila(cola) para gestionar 
+el orden de llegada de los clientes.
+
+Operaciones:
+1.	Llegar_cliente(nombre): Agrega un nuevo cliente a la fila de espera
+2.	Atender_cliente(): Atiende el cliente que ha estado esperando mas tiempo y lo mueve a la lista de clientes atendidos
+3.	Cliente_en_espera():Devuelve el nombre del cliente que está al frente de la fila sin eliminarlo
+4.	Clientes_en_espera():Devuelve una lista con los nombres de todos los clientes que están esperando ser atendidos
+5.	Clientes_atendidos():Devuelve una lista con los nombres de todos los clientes que ya han sido atendidos
+6.	Reiniciar():Reinicia el sistema,eliminando todos los clientes en espera y atendidos
+
+
+Sintaxis:
+Constructoras:
+
+FILAVACIA: -> FILA (Crea una lista vacía para albergar clientes)
+LLEGAR_CLIENTE: FILA x ITEM -> FILA (Ingresa el nombre del cliente a la lista de pendientes a ser atendidos)
+
+Operaciones:
+
+ESFILAVACIA: FILA -> BOOL (Test para saber si una lista de clientes es vacía o no)
+ATENDER_CLIENTE: FILA -> FILA (Atiende al cliente que ha estado esperando más tiempo, lo elimina de la lista de pendientes y lo pasa a clientes atendidos)
+CLIENTE_EN_ESPERA: FILA -> ITEM u {indefinido} (Muestra el cliente que está al frente de la lista sin eliminarlo)
+CLIENTES_EN_ESPERA: FILA -> LISTA[ITEM] (Muestra una lista de clientes en espera)
+CLIENTES_ATENDIDOS: FILA -> LISTA[ITEM] (Muestra una lista de clientes atendidos)
+REINICIAR: FILA -> FILA (Función que elimina la lista de clientes atendidos y en espera)
+
+
+Semántica:
+Para todo q ∈ FILA, ∀ i ∈ ITEM:
+
+ESFILAVACIA:
+
+ESFILAVACIA(FILAVACIA) ≡ TRUE
+ESFILAVACIA(LLEGAR_CLIENTE(q, i)) ≡ FALSE
+
+ATENDER_CLIENTE:
+
+ATENDER_CLIENTE(FILAVACIA) ≡ FILAVACIA
+ATENDER_CLIENTE(LLEGAR_CLIENTE(q, i)) ≡ si ESFILAVACIA(q) entonces FILAVACIA sino LLEGAR_CLIENTE(ATENDER_CLIENTE(q), i)
+
+CLIENTE_EN_ESPERA:
+
+CLIENTE_EN_ESPERA(FILAVACIA) ≡ indefinido
+CLIENTE_EN_ESPERA(LLEGAR_CLIENTE(q, i)) ≡ si ESFILAVACIA(q) entonces i sino CLIENTE_EN_ESPERA(q)
+
+CLIENTES_EN_ESPERA:
+
+CLIENTES_EN_ESPERA(FILAVACIA) ≡ FILAVACIA
+CLIENTES_EN_ESPERA(LLEGAR_CLIENTE(q, i)) ≡ si ESFILAVACIA(q) entonces [i] sino LLEGAR_CLIENTE(CLIENTES_EN_ESPERA(q), i)
+
+CLIENTES_ATENDIDOS:
+
+CLIENTES_ATENDIDOS(FILAVACIA) ≡ FILAVACIA
+CLIENTES_ATENDIDOS(ATENDER_CLIENTE(q)) ≡ si ESFILAVACIA(q) entonces FILAVACIA sino LLEGAR_CLIENTE(CLIENTES_ATENDIDOS(ATENDER_CLIENTE(q)), i)
+
+REINICIAR:
+
+REINICIAR(FILAVACIA) ≡ FILAVACIA
+REINICIAR(LLEGAR_CLIENTE(q, i)) ≡ FILAVACIA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+Funcion Misterio(x):Entero>=1--->Entero>1
+Si x=1 entonces
+Retorna x
+sino
+Retorna X*Misterio(x/10)
+fin

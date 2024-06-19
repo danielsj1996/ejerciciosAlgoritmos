@@ -1,0 +1,90 @@
+#include <iostream>
+using namespace std;
+
+// Definición de la estructura de nodo
+struct Nodo {
+    int item;
+    Nodo* siguiente;
+
+    Nodo(int item) : item(item), siguiente(this) {}
+};
+
+// Definición de la clase Misterio
+class Misterio {
+private:
+    Nodo* cabeza;
+
+public:
+    // Constructor
+    Misterio() : cabeza(nullptr) {}
+
+    // Sobrecarga del operador += para agregar un item
+    Misterio& operator+=(int item) {
+        if (cabeza == nullptr) {
+            cabeza = new Nodo(item);
+            cabeza->siguiente = cabeza; // Lista circular, cabeza apunta a sí misma
+        } else {
+            Nodo* nuevoNodo = new Nodo(item);
+            nuevoNodo->siguiente = cabeza->siguiente;
+            cabeza->siguiente = nuevoNodo;
+            cabeza = nuevoNodo;
+        }
+        return *this;
+    }
+
+    // Verificar si la lista está vacía
+    bool estaVacia() const {
+        return cabeza == nullptr;
+    }
+
+    // Obtener el primer item de la lista
+    int primero() const {
+        if (estaVacia()) return -1; // Suponemos que -1 representa indefinido
+        return cabeza->siguiente->item;
+    }
+
+    // Obtener el último item de la lista
+    int ultimo() const {
+        if (estaVacia()) return -1; // Suponemos que -1 representa indefinido
+        return cabeza->item;
+    }
+
+    // Crear una copia de la lista
+    Misterio copia() const {
+        Misterio nuevoMisterio;
+        if (cabeza == nullptr) {
+            return nuevoMisterio;
+        }
+        Nodo* actual = cabeza->siguiente;
+        do {
+            nuevoMisterio += actual->item;
+            actual = actual->siguiente;
+        } while (actual != cabeza->siguiente);
+        return nuevoMisterio;
+    }
+
+    // Obtener el tamaño de la lista
+    int tamano() const {
+        if (estaVacia()) return 0;
+        int contador = 1;
+        Nodo* actual = cabeza->siguiente;
+        while (actual != cabeza) {
+            contador++;
+            actual = actual->siguiente;
+        }
+        return contador;
+    }
+
+    // Destructor para liberar la memoria
+    ~Misterio() {
+        if (cabeza != nullptr) {
+            Nodo* actual = cabeza->siguiente;
+            while (actual != cabeza) {
+                Nodo* siguienteNodo = actual->siguiente;
+                delete actual;
+                actual = siguienteNodo;
+            }
+            delete cabeza;
+        }
+    }
+};
